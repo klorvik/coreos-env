@@ -5,7 +5,7 @@ coreos:
     # generate a new token for each unique cluster from https://discovery.etcd.io/new?size=3
     # specify the initial size of your cluster with ?size=X
     # WARNING: replace each time you 'vagrant destroy'
-    discovery: https://discovery.etcd.io/45d24ec90d96cd7ab8d4836623ad8057
+    discovery: https://discovery.etcd.io/f8ad21c7b6ceeee9ea1107143f1c7934
     # multi-region deployments, multi-cloud deployments, and Droplets without
     # private networking need to use $public_ipv4:
     advertise-client-urls: http://$private_ipv4:2379,http://$private_ipv4:4001
