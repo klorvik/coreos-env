@@ -1,0 +1,46 @@
+#cloud-config
+hostname: "coreos-002"
+
+coreos:
+  etcd2:
+    discovery: "https://discovery.etcd.io/6ea61622855dd8bc23f46a7c0bb66df4"
+    advertise-client-urls: "http://10.118.20.205:2379,http://10.118.20.205:4001"
+    initial-advertise-peer-urls: "http://10.118.20.205:2380"
+    listen-client-urls: "http://0.0.0.0:2379,http://0.0.0.0:4001"
+    listen-peer-urls: "http://10.118.20.205:2380"
+
+  fleet:
+    public-ip: "10.118.20.205"
+    metadata: "location=TRD,public=true,name=coreos-001,role=testlab"
+
+  update:
+    reboot-strategy: "etcd-lock"
+    group: "stable"
+
+  units:
+    - name: "etcd2.service"
+      command: "start"
+    - name: "fleet.service"
+      command: "start"
+    - name: 00-eth0.network
+      runtime: true
+      content: |
+        [Match]
+        Name=eth0
+
+        [Network]
+        DNS=8.8.8.8
+        Address=10.118.20.205/24
+        Gateway=10.118.20.193
+
+users:
+  - name: "knut"
+    passwd: "$6$nwzq5vZuNoCA$UZKcu3krjhQ4cAWQfFSirsadGq8PluxzL46xfV38ix5VezXvOi..1VqDaZ.RbvLlF1fXuL6cXuXVoZe8yYzvm/"
+    groups:
+      - "sudo"
+      - "docker"
+  - name: "kjetil"
+    passwd: "$6$nwzq5vZuNoCA$UZKcu3krjhQ4cAWQfFSirsadGq8PluxzL46xfV38ix5VezXvOi..1VqDaZ.RbvLlF1fXuL6cXuXVoZe8yYzvm/"
+    groups:
+      - "sudo"
+      - "docker"
